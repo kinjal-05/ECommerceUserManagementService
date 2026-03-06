@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: user-service   # unique service name
+
+  cloud:
+    function:
+      definition: userFetchConsumer
+
+    stream:
+      bindings:
+
+        # Consumer (receive request)
+        userFetchConsumer-in-0:
+          destination: user-fetch-topic
+          group: user-group-NEW
+          content-type: application/json
+
+        # Producer (send emails)
+        userEmails-out-0:
+          destination: user-emails-topic
+
+        userDeleted-out-0:
+          destination: user-deleted
+
+        userDeletedNotification-out-0:
+          destination: user-deleted-notification
+
+        userDeletedInventory-out-0:
+          destination: user-deleted-inventory
+
+      kafka:
+        binder:
+          brokers: localhost:9092
+          producer-properties:
+            value.serializer: org.apache.kafka.common.serialization.ByteArraySerializer
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka/
+
+  instance:
+    prefer-ip-address: true

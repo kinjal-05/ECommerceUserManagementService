@@ -12,19 +12,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+/**
+ * Route path is resolved from api-paths.yml at startup.
+ *
+ * api.auth.base  → /api/auth           (shared base with AuthController)
+ * api.token.refresh → /refresh-token
+ *
+ * Final resolved URL: POST /api/auth/refresh-token
+ */
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("${api.auth.base}")
 @RequiredArgsConstructor
-public class TokenController
-{
+public class TokenController {
 
 	private final RefreshTokenRepository refreshTokenRepository;
 	private final RefreshTokenService refreshTokenService;
 	private final JwtService jwtService;
 
-	@PostMapping("/refresh-token")
-	public ResponseEntity<AuthResponse> refreshToken(@RequestBody RefreshTokenRequest request)
-	{
+	@PostMapping("${api.token.refresh}")
+	public ResponseEntity<AuthResponse> refreshToken(@RequestBody RefreshTokenRequest request) {
 
 		RefreshToken refreshToken = refreshTokenRepository
 				.findByToken(request.getRefreshToken())
@@ -32,21 +39,16 @@ public class TokenController
 
 		refreshTokenService.verifyExpiration(refreshToken);
 
-
-
 		var user = refreshToken.getUser();
 
 		CustomUserDetails userDetails = new CustomUserDetails(user);
 
-// Convert single role to list
 		List<String> roles = List.of(user.getRole().name());
 
-
-		String accessToken = jwtService.generateToken(userDetails,roles);
+		String accessToken = jwtService.generateToken(userDetails, roles);
 
 		return ResponseEntity.ok(
 				new AuthResponse(accessToken, request.getRefreshToken())
 		);
 	}
 }
-

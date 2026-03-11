@@ -1,0 +1,13 @@
+api:
+  auth:
+    base: /api/auth
+    register: /register
+    login: /login
+    logout: /logout
+    me: /me
+    users: /users
+    users-search: /users/search
+    users-by-id: /users/{id}
+    users-role: /users/{id}/role
+  token:
+    refresh: /refresh-token

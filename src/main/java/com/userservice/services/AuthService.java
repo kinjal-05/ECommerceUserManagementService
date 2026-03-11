@@ -1,10 +1,12 @@
 package com.userservice.services;
+
 import com.userservice.commondtos.UserFetchRequestEvent;
 import com.userservice.dtos.*;
 import com.userservice.enums.Role;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+
 public interface AuthService {
 	UserResponse register(RegisterRequest request);
 

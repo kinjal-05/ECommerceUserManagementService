@@ -1,8 +1,10 @@
 package com.userservice.exceptions;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import java.util.HashMap;
 import java.util.Map;
+
 public class CustomMethodArgumentNotValidException extends RuntimeException
 {
 	public CustomMethodArgumentNotValidException(String message)

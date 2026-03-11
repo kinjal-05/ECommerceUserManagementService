@@ -1,10 +1,11 @@
 package com.userservice.specifications;
+
 import com.userservice.models.User;
 import org.springframework.data.jpa.domain.Specification;
-
 import jakarta.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
+
 public class UserSpecification {
 
 	public static Specification<User> searchUsers(

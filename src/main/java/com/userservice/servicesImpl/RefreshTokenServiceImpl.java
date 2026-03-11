@@ -1,7 +1,7 @@
 package com.userservice.servicesImpl;
+
 import java.time.Instant;
 import java.util.UUID;
-
 import com.userservice.models.RefreshToken;
 import com.userservice.models.User;
 import com.userservice.repositories.RefreshTokenRepository;
@@ -9,6 +9,7 @@ import com.userservice.services.RefreshTokenService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 @Service
 @RequiredArgsConstructor
 public class RefreshTokenServiceImpl implements RefreshTokenService {

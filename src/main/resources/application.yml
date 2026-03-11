@@ -1,6 +1,41 @@
+server:
+  port: 8087
+
 spring:
   application:
-    name: user-service   # unique service name
+    name: user-service
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/user_db
+    username: root
+    password: Kinu@1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    template:
+      default-topic: test-topic
+    consumer:
+      group-id: my-group
+      auto-offset-reset: earliest
+    admin:
+      fail-fast: true
+      client-id: adminclient-1
+      auto-create-topics: true
+      properties:
+        request.timeout.ms: 5000
+        retry.backoff.ms: 1000
 
   cloud:
     function:
@@ -9,13 +44,11 @@ spring:
     stream:
       bindings:
 
-        # Consumer (receive request)
         userFetchConsumer-in-0:
           destination: user-fetch-topic
           group: user-group-NEW
           content-type: application/json
 
-        # Producer (send emails)
         userEmails-out-0:
           destination: user-emails-topic
 
@@ -33,6 +66,10 @@ spring:
           brokers: localhost:9092
           producer-properties:
             value.serializer: org.apache.kafka.common.serialization.ByteArraySerializer
+
+jwt:
+  secret: ChangeThisSecretKeyToAtLeast32CharactersLong!!
+  expiration-ms: 3600000
 
 eureka:
   client:

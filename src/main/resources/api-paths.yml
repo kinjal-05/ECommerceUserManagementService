@@ -1,6 +1,6 @@
 api:
   auth:
-    base: /api/auth
+    base: /api/auth/v1
     register: /register
     login: /login
     logout: /logout
